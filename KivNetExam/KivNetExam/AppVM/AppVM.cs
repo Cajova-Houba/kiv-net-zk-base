@@ -45,5 +45,15 @@ namespace KivNetExam.AppVM
         {
             // nacist data z databaze pri spusteni
         }
+
+        public string ExportToHtml()
+        {
+            return appService.ExportToHtml("", new Dictionary<string, List<AppDbCore.Model.IExportableToHtml>>());
+        }
+
+        public string ExportToSvg()
+        {
+            return appService.ExportToSvg(0, 0, new List<AppDbCore.Model.IExportableToSvg>());
+        }
     }
 }

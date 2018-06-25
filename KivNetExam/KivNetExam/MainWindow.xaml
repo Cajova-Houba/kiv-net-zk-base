@@ -10,5 +10,12 @@
     <Window.DataContext>
         <AppVM:AppVM/>
     </Window.DataContext>
-    <Grid/>
+    <Grid>
+        <Grid.RowDefinitions>
+            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            
+        </Grid.ColumnDefinitions>
+    </Grid>
 </Window>
