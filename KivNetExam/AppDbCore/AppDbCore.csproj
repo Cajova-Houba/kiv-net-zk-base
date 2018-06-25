@@ -50,8 +50,12 @@
     <Compile Include="AppContext.cs" />
     <Compile Include="Model\AbstractEntity.cs" />
     <Compile Include="Model\IEntity.cs" />
+    <Compile Include="Model\IExportableToHtml.cs" />
+    <Compile Include="Model\IExportableToSvg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AppService.cs" />
+    <Compile Include="Service\HTMLExporter.cs" />
+    <Compile Include="Service\SVGExporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
