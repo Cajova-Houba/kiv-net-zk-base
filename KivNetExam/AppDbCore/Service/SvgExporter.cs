@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace AppDbCore.Service
 {
-    public class SvgExporter
+    public class SVGExporter
     {
-        public string ExportToSvg(double width, double height, List<IExportableToSvg> elements)
+        public static string ExportToSvg(double width, double height, List<IExportableToSvg> elements)
         {
             string svg = $"<svg width=\"{width}\" height=\"{height}\">";
             foreach(IExportableToSvg svgElem in elements)
             {
-                svg += svgElem.ToSvg;
+                svg += svgElem.ToSvg();
             }
             svg += "</svg>";
 

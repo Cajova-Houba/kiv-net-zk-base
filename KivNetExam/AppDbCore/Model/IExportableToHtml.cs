@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace AppDbCore.Model
 {
-    public interface IExportableToSvg
+    public interface IExportableToHtml
     {
-        string ToSvg();
+        string[] GetFieldNames();
+
+        string[] GetFieldValues();
     }
 }
