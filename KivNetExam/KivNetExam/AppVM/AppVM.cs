@@ -1,6 +1,9 @@
-﻿using System;
+﻿using AppDbCore;
+using AppDbCore.Service;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +13,8 @@ namespace KivNetExam.AppVM
     public class AppVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private AppService appService;
 
         protected void OnPropertyChanged(string name)
         {
@@ -30,6 +35,8 @@ namespace KivNetExam.AppVM
             else
             {
                 // to co ma byt pro ok view
+                Database.SetInitializer(new ContextInit());
+                appService = new AppService();
                 LoadOnInit();
             }
         }
