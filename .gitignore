@@ -1,5 +1,3 @@
-KivNetExam\AppDbCore\bin\
-KivNetExam\AppDbCore\obj\
-KivNetExam\KivNetExam\bin\
-KivNetExam\KivNetExam\obj\
-KivNetExam\.vs
+**\bin
+**\obj
+**\.vs
