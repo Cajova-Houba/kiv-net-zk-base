@@ -13,14 +13,19 @@ namespace AppDbCore.Service
     {
         private NetAppContext netAppContext;
 
-        public string ExportToHtml(string title, Dictionary<string, List<IExportableToHtml>> data)
+        public void ExportToXml(IExportableToXml data, string outFilePath)
         {
-            return HTMLExporter.Export(title, data);
+            XMLExporter.Export(data, outFilePath);
         }
 
-        public string ExportToSvg(double width, double height, List<IExportableToSvg> data)
+        public void ExportToHtml(string title, Dictionary<string, List<IExportableToHtml>> data, string outFilePath)
         {
-            return SVGExporter.Export(width, height, data);
+            HTMLExporter.Export(title, data, outFilePath);
+        }
+
+        public void ExportToSvg(double width, double height, List<IExportableToSvg> data, string outFilePath)
+        {
+            SVGExporter.Export(width, height, data, outFilePath);
         }
     }
 }

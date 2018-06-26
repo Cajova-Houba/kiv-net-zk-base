@@ -32,6 +32,26 @@ namespace KivNetExam
             return (AppVM.AppVM)DataContext;
         }
 
+        private void OnExportToXmlClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    AddExtension = true,
+                    DefaultExt = "xml"
+                };
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    GetDataContext().ExportToXml(saveFileDialog.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayError($"Unexpected exception while exporting to xml: {ex.Message}.");
+            }
+        }
+
         private void OnExportToHtmlClick(object sender, RoutedEventArgs e)
         {
             try
@@ -43,8 +63,7 @@ namespace KivNetExam
                 };
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    string htmlData = GetDataContext().ExportToHtml();
-                    File.WriteAllText(saveFileDialog.FileName, htmlData);
+                    GetDataContext().ExportToHtml(saveFileDialog.FileName);
                 }
             } catch (Exception ex)
             {
@@ -63,8 +82,7 @@ namespace KivNetExam
                 };
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    string svgData = GetDataContext().ExportToSvg();
-                    File.WriteAllText(saveFileDialog.FileName, svgData);
+                    GetDataContext().ExportToSvg(saveFileDialog.FileName);
                 }
             } catch (Exception ex)
             {

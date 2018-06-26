@@ -1,6 +1,7 @@
 ﻿using AppDbCore.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,7 +55,7 @@ namespace KivNetExam.Service
             stringBuilder.Append("</table>");
         }
 
-        public static string Export(String title, Dictionary<String, List<IExportableToHtml>> htmlData)
+        public static void Export(String title, Dictionary<String, List<IExportableToHtml>> htmlData, string outFilePath)
         {
 
             StringBuilder sb = new StringBuilder();
@@ -74,7 +75,7 @@ namespace KivNetExam.Service
             sb.Append("</body>")
                 .Append("</html>");
 
-            return sb.ToString();
+            File.WriteAllText(outFilePath, sb.ToString());
         }
     }
 }

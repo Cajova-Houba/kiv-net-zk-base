@@ -16,6 +16,8 @@ namespace KivNetExam.AppVM
 
         private AppService appService;
 
+        public DateTime SomeDate { get; set; }
+
         protected void OnPropertyChanged(string name)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -28,6 +30,7 @@ namespace KivNetExam.AppVM
 
         public AppVM()
         {
+            SomeDate = DateTime.Now;
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {
                 // init to co ma byt pro normal view
@@ -46,14 +49,19 @@ namespace KivNetExam.AppVM
             // nacist data z databaze pri spusteni
         }
 
-        public string ExportToHtml()
+        public void ExportToHtml(string outFilePath)
         {
-            return appService.ExportToHtml("", new Dictionary<string, List<AppDbCore.Model.IExportableToHtml>>());
+            appService.ExportToHtml("", new Dictionary<string, List<AppDbCore.Model.IExportableToHtml>>(), outFilePath);
         }
 
-        public string ExportToSvg()
+        public void ExportToSvg(string outFilePath)
         {
-            return appService.ExportToSvg(0, 0, new List<AppDbCore.Model.IExportableToSvg>());
+            appService.ExportToSvg(0, 0, new List<AppDbCore.Model.IExportableToSvg>(), outFilePath);
+        }
+
+        public void ExportToXml(string outFilePath)
+        {
+            appService.ExportToXml(null, outFilePath);
         }
     }
 }

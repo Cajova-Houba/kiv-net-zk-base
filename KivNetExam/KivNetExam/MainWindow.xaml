@@ -12,10 +12,13 @@
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
+        <TextBox HorizontalAlignment="Left" Height="23" Text="{Binding SomeDate, StringFormat='yyyy-MM-dd HH:mm:ss'}" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>
