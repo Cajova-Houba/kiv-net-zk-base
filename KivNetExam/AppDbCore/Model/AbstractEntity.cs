@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace AppDbCore.Model
 {
-    public abstract class AbstractEntity : IEntity
+    public abstract class AbstractEntity : IEntity, IValidatable
     {
         public int Id { get; set; }
+
+        public abstract void Validate();
 
         public override bool Equals(object obj)
         {

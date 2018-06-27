@@ -13,15 +13,19 @@ namespace AppDbCore.Service
     {
         /// <summary>
         /// http://www.jonasjohn.de/snippets/csharp/xmlserializer-example.htm
+        /// 
+        /// [XmlIgnoreAttribute]
         /// </summary>
         /// <param name="data"></param>
         /// <param name="outFileName"></param>
         public static void Export(IExportableToXml data, string outFileName)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(data.GetType());
-            TextWriter tw = new StreamWriter(@"out.xml");
-            xmlSerializer.Serialize(tw, data);
-            tw.Close();
+            using (var outFileStream = File.Create(outFileName))
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(data.GetType());
+                xmlSerializer.Serialize(outFileStream, data);
+                xmlSerializer = null;
+            }
         }
     }
 }

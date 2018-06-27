@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppDbCore.Model;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -11,6 +12,35 @@ namespace AppDbCore
     {
         protected override void Seed(NetAppContext context)
         {
+            int idCntr = 1;
+            context.Meteostations.AddRange(new List<Meteostation>()
+            {
+                new Meteostation() {Id = idCntr++, Latitude = "12.32", Longitude = "34.65", Name = "Meteostation 1"},
+                new Meteostation() {Id = idCntr++, Latitude = "12.32", Longitude = "34.65", Name = "Meteostation 2"},
+            });
+            context.SaveChanges();
+
+            idCntr = 1;
+            Random r = new Random();
+            context.Reports.AddRange(new List<Report>()
+            {
+                new Report() {Id = idCntr++, Summary = "Ok report.", MeteostationId = 1, ReportDate = DateTime.Now.AddDays(-5 + r.Next(10)) },
+                new Report() {Id = idCntr++, Summary = "Ok report.", MeteostationId = 1, ReportDate = DateTime.Now.AddDays(-5 + r.Next(10)) },
+                new Report() {Id = idCntr++, Summary = "Ok report.", MeteostationId = 2, ReportDate = DateTime.Now.AddDays(-5 + r.Next(10)) },
+
+            });
+            context.SaveChanges();
+
+            idCntr = 1;
+            context.ReportDataLines.AddRange(new List<ReportDataLine>()
+            {
+                new ReportDataLine() {Id = idCntr++, DataType = DataLineType.RAIN, Value = 100*r.NextDouble(), ReportId = 1},
+                new ReportDataLine() {Id = idCntr++, DataType = DataLineType.TEMPERATURE, Value = 100*r.NextDouble(), ReportId = 2},
+                new ReportDataLine() {Id = idCntr++, DataType = DataLineType.SNOW, Value = 100*r.NextDouble(), ReportId = 3},
+                new ReportDataLine() {Id = idCntr++, DataType = DataLineType.SNOW, Value = 100*r.NextDouble(), ReportId = 1},
+                new ReportDataLine() {Id = idCntr++, DataType = DataLineType.WIND, Value = 100*r.NextDouble(), ReportId = 2},
+                new ReportDataLine() {Id = idCntr++, DataType = DataLineType.WIND, Value = 100*r.NextDouble(), ReportId = 3},
+            });
             //deklarace stuff zde
             //    context.Tables.AddRange(new List<Table>()
             //    {
@@ -47,6 +77,11 @@ namespace AppDbCore
 
     public class NetAppContext : DbContext
     {
+        public DbSet<Meteostation> Meteostations { get; set; }
+
+        public DbSet<Report> Reports { get; set; }
+
+        public DbSet<ReportDataLine> ReportDataLines { get; set; }
         // public DbSet<o> tady;
     }
 }

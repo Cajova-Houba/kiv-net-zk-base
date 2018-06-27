@@ -128,7 +128,57 @@ namespace KivNetExam
 
         private void DisplayError(String errorMessage)
         {
-            MessageBox.Show("Error", errorMessage, MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                GetDataContext().AddMeteostation();
+            } catch(Exception ex)
+            {
+                DisplayError("Error while adding meteostaiton: " + ex.Message);
+            }
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GetDataContext().RefreshReportPanel();
+        }
+
+        private void DataGrid_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                GetDataContext().AddReport();
+            }
+            catch (Exception ex)
+            {
+                DisplayError("Error while adding meteostaiton: " + ex.Message);
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                GetDataContext().AddReportData();
+            }
+            catch (Exception ex)
+            {
+                DisplayError("Error while adding meteostaiton: " + ex.Message);
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            ExportToXml();
         }
     }
 }

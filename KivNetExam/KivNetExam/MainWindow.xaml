@@ -6,19 +6,141 @@
         xmlns:local="clr-namespace:KivNetExam"
         xmlns:AppVM="clr-namespace:KivNetExam.AppVM" x:Class="KivNetExam.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="400" Width="800">
     <Window.DataContext>
         <AppVM:AppVM/>
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox HorizontalAlignment="Left" Height="23" Text="{Binding SomeDate, StringFormat='yyyy-MM-dd HH:mm:ss'}" VerticalAlignment="Top" Width="120"/>
+        <GroupBox Header="Meteostations" Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Content="Name"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding NewMeteostation.Name, Mode=OneWayToSource}"/>
+
+                    <Label Grid.Column="0" Grid.Row="1" Content="Lat"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding NewMeteostation.Latitude, Mode=OneWayToSource}"/>
+
+                    <Label Grid.Column="0" Grid.Row="2" Content="Lon"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding NewMeteostation.Longitude, Mode=OneWayToSource}"/>
+
+                    <Button Content="+" Grid.Column="1" Grid.Row="3" Click="Button_Click"/>
+                </Grid>
+
+                <DataGrid ItemsSource="{Binding Meteostations, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedMeteostation, Mode=TwoWay}" IsReadOnly="True" Grid.Row="1" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Name}" Header="Name"/>
+                        <DataGridTextColumn Binding="{Binding Longitude}" Header="Longitude"/>
+                        <DataGridTextColumn Binding="{Binding Latitude}" Header="Latitude"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="{Binding SelectedMeteostation.Name}" Grid.Column="1" IsEnabled="{Binding CanAddReport}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Content="Date"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding NewReport.ReportDate, StringFormat='yyyy-MM-dd'}"/>
+
+                    <Label Grid.Column="0" Grid.Row="1" Content="Summary"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding NewReport.Summary}"/>
+
+                    <Button Content="+" Grid.Column="1" Grid.Row="2" Click="Button_Click_1"/>
+                </Grid>
+
+                <DataGrid ItemsSource="{Binding Reports}" Grid.Row="1" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged_1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding ReportDate}" Header="Date"/>
+                        <DataGridTextColumn Binding="{Binding Summary}" Header="Summary"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Report details" Grid.Column="2" IsEnabled="{Binding CanAddReportData}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Content="Type"/>
+                    <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding AvailableDataTypes}" SelectedItem="{Binding NewReportDataType}"/>
+
+                    <Label Grid.Column="0" Grid.Row="1" Content="Value"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding NewReportValue, Mode=OneWayToSource}"/>
+
+                    <Button Content="+" Grid.Column="1" Grid.Row="2" Click="Button_Click_2"/>
+                </Grid>
+
+                <DataGrid ItemsSource="{Binding ReportData}" Grid.Row="1" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Type}" Header="Type"/>
+                        <DataGridTextColumn Binding="{Binding Value}" Header="Value"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+        <!--<TextBox HorizontalAlignment="Left" Height="23" Text="{Binding SomeDate, StringFormat='yyyy-MM-dd HH:mm:ss'}" VerticalAlignment="Top" Width="120"/>-->
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3">
+            <Button Content="XML Export" Width="100" Click="Button_Click_3"/>
+            <Button Content="HTML Export" Width="100"/>
+        </StackPanel>
     </Grid>
 </Window>
