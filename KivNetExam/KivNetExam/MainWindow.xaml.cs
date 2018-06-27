@@ -32,7 +32,7 @@ namespace KivNetExam
             return (AppVM.AppVM)DataContext;
         }
 
-        private void OnExportToXmlClick(object sender, RoutedEventArgs e)
+        private void ExportToXml()
         {
             try
             {
@@ -52,7 +52,7 @@ namespace KivNetExam
             }
         }
 
-        private void OnExportToHtmlClick(object sender, RoutedEventArgs e)
+        private void ExportToHtml()
         {
             try
             {
@@ -71,7 +71,7 @@ namespace KivNetExam
             }
         }
 
-        private void OnExportToSvgClick(object sender, RoutedEventArgs e)
+        private void ExportToSvg()
         {
             try
             {
@@ -87,6 +87,42 @@ namespace KivNetExam
             } catch (Exception ex)
             {
                 DisplayError($"Unexpected exception while exporting to svg: {ex.Message}.");
+            }
+        }
+
+        private void ExportCanvasToPng()
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    AddExtension = true,
+                    DefaultExt = "png"
+                };
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    double dpi = 96d;
+                    PixelFormat pixelFormat = PixelFormats.Default;
+                    // pouzit opravdovy canvas
+                    Canvas canvas = null;
+                    Rect rect = new Rect(canvas.RenderSize);
+                    RenderTargetBitmap rtb = new RenderTargetBitmap((int)rect.Right,
+                      (int)rect.Bottom, dpi, dpi, pixelFormat);
+                    rtb.Render(canvas);
+                    //endcode as PNG
+                    BitmapEncoder pngEncoder = new PngBitmapEncoder();
+                    pngEncoder.Frames.Add(BitmapFrame.Create(rtb));
+
+                    //save to memory stream
+                    MemoryStream ms = new MemoryStream();
+
+                    pngEncoder.Save(ms);
+                    ms.Close();
+                    File.WriteAllBytes(saveFileDialog.FileName, ms.ToArray());
+                }
+            } catch (Exception ex)
+            {
+                DisplayError($"Unexpected exception while exporting to png: {ex.Message}.");
             }
         }
 
